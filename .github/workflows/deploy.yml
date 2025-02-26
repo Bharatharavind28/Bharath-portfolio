@@ -1,0 +1,36 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # Trigger on push to the main branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Node.js (if you need to run build steps, otherwise skip)
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'  # You can specify a different Node version here if needed
+
+      # Step 3: Build your static files (skip if already built)
+      # - name: Install dependencies
+      #   run: npm install
+
+      # - name: Build static files
+      #   run: npm run build  # Uncomment if you are using a build step (e.g., for a React or Vue project)
+
+      # Step 4: Deploy to GitHub Pages using the `peaceiris/actions-gh-pages` action
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}  # This token is automatically provided by GitHub Actions
+          publish_dir: ./  # Path to the directory with your HTML files (adjust if different)
+          # Optionally, you can specify `publish_branch` if you are deploying to a different branch
